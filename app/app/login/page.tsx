@@ -2,11 +2,30 @@
 
 import PrimaryButton from "@/components/button/PrimaryButton";
 import SecondaryButton from "@/components/button/SecondaryButton";
+import setting from "@/lib/setting";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
 
 export default function Login() {
     const router = useRouter();
+
+    const [appName, setAppName] = useState<string>("");
+
+    useEffect(() => {
+        // アプリケーション名取得
+        const load = async () => {
+            const response = await fetch("/api/login");
+            
+            const body = await response.json();
+
+            const appName: string = body.appName;
+            setAppName(appName);
+        }
+
+        load();
+    }), [];
+
 
     // ログイン
     const login = () => {
@@ -18,7 +37,8 @@ export default function Login() {
 
             {/* ツールタイトル */}
             <h3 className="absolute top-10 left-10 text-xl font-bold text-gray-500">
-                旅行管理ツール
+                { appName }
+                {/* 旅行管理ツール */}
             </h3>
 
             {/* ログイン画面 */}

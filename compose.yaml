@@ -14,8 +14,11 @@ services:
       - "3000:3000"
 
     volumes:
+    # ホスト:コンテナ:ro →ro はRead Onry
       # ホストのソースコードをコンテナへマウント
       - ./app:/app
+      # 設定ファイルをコンテナへマウント
+      - ./config/setting.json:/config/setting.json:ro
 
       # node_modulesはDocker側で管理
       - node_modules:/app/node_modules

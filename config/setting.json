@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "旅行管理ツール",
+    "port": 3000
+  },
+  "oracle": {
+    "host": "oracle",
+    "port": 1521,
+    "serviceName": "FREEPDB1",
+    "user": "appuser"
+  }
+}
