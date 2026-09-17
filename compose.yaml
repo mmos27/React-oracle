@@ -5,33 +5,57 @@ services:
   # =========================
   app:
     build:
-      context: ./app
+      # ホスト側のNext.jsプロジェクト
+      context: ./frontend
+
+      # frontendディレクトリ内のDockerfileを使用
       dockerfile: Dockerfile
 
+    # Next.jsコンテナ名
     container_name: react-next-app
 
     ports:
+      # ホスト:コンテナ
       - "3000:3000"
 
     volumes:
-    # ホスト:コンテナ:ro →ro はRead Onry
-      # ホストのソースコードをコンテナへマウント
-      - ./app:/app
-      # 設定ファイルをコンテナへマウント
+      # =================================
+      # Next.jsソースコード
+      # =================================
+      # ホスト: ScheduleTool/frontend
+      # コンテナ: /app
+      #
+      # コンテナ内では /app がNext.jsプロジェクトのルートになる
+      - ./frontend:/app
+
+      # =================================
+      # 設定ファイル
+      # =================================
+      # ホストの設定ファイルを
+      # コンテナの /config/setting.json として読み取り専用でマウント
       - ./config/setting.json:/config/setting.json:ro
 
-      # node_modulesはDocker側で管理
+      # =================================
+      # node_modules
+      # =================================
+      # node_modulesはDockerの名前付きボリュームで管理
       - node_modules:/app/node_modules
 
     environment:
+      # =================================
       # Next.js
+      # =================================
       WATCHPACK_POLLING: "true"
 
-      # PostgreSQL接続情報
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/schedule_db
+      # =================================
+      # PostgreSQL
+      # =================================
+      # コンテナ間通信なのでホスト名は「db」
+      DATABASE_URL: postgresql://momo:yuki@db:5432/schedule_db
 
     depends_on:
       - db
+
 
   # =========================
   # PostgreSQL
@@ -39,27 +63,34 @@ services:
   db:
     image: postgres:17
 
+    # PostgreSQLコンテナ名
     container_name: react-postgres
 
     ports:
+      # ホスト:コンテナ
       - "5432:5432"
 
     environment:
+      # PostgreSQLユーザー
       POSTGRES_USER: momo
+
+      # PostgreSQLパスワード
       POSTGRES_PASSWORD: yuki
+
+      # PostgreSQLデータベース
       POSTGRES_DB: schedule_db
 
     volumes:
-      # PostgreSQLのデータを保存
+      # PostgreSQLのデータを永続化
       - postgres_data:/var/lib/postgresql/data
+
 
 # =========================
 # Docker Volumes
 # =========================
 volumes:
-
-  # Next.jsのnode_modules
   node_modules:
 
-  # PostgreSQLのデータ
   postgres_data:
+    external: true
+    name: react-oracle_postgres_data
