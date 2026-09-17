@@ -3,10 +3,11 @@
     "name": "旅行管理ツール",
     "port": 3000
   },
-  "oracle": {
-    "host": "oracle",
-    "port": 1521,
-    "serviceName": "FREEPDB1",
-    "user": "appuser"
+  "postgresql": {
+    "host": "lovalhost",
+    "port": 5432,
+    "postgresDB": "schedule_db",
+    "user": "momo",
+    "pass": "yuki"
   }
 }

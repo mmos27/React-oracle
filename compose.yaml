@@ -45,8 +45,8 @@ services:
       - "5432:5432"
 
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: momo
+      POSTGRES_PASSWORD: yuki
       POSTGRES_DB: schedule_db
 
     volumes:
@@ -58,7 +58,7 @@ services:
 # =========================
 volumes:
 
-  # Node.jsの依存パッケージ
+  # Next.jsのnode_modules
   node_modules:
 
   # PostgreSQLのデータ
