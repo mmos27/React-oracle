@@ -26,6 +26,42 @@ export default function Menu() {
         setTabList(newTabList);
     }
 
+    // Excel出力
+    const outputExcel =async () => {
+        // const responce = await fetch("/api/outputExcel");
+        const responce = await fetch("/api/outputExcel", {
+            method: "POST"
+        })
+
+        console.log(">>>responce:", responce);
+
+        if (!responce.ok) {
+            throw new Error("Excel出力に失敗しました。");
+        }
+
+        // レスポンスをBlobとして取得
+        const blob = await responce.blob();
+
+        // ダウンロード用URLを作成
+        const url = window.URL.createObjectURL(blob);
+
+        // ダウンロード用aタグ作成
+        const link = document.createElement("a");
+
+        link.href = url;
+
+        // ダウンロードファイル名
+        link.download = "output.xlsx";
+
+        // ダウンロード実行
+        document.body.appendChild(link);
+        link.click();
+
+        // 不要になった要素を削除
+        link.remove();
+        window.URL.revokeObjectURL(url);
+    }
+
     return (
         <div className="relative min-h-screen">
 
@@ -74,6 +110,17 @@ export default function Menu() {
                         onClick={ addTab }
                     >
                         ＋
+                    </button>
+                </div>
+
+                {/* Excel出力 */}
+                <div>
+                    <button
+                        className="border rounded bg-red-300"
+                        type="button"
+                        onClick={ outputExcel }
+                    >
+                        Excel出力
                     </button>
                 </div>
 

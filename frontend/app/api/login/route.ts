@@ -1,5 +1,4 @@
 import setting from "@/lib/setting";
-import { Oldenburg } from "next/font/google";
 import { NextResponse } from "next/server";
 
 export async function GET(recest: Request) {
