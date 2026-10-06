@@ -62,6 +62,52 @@ export default function Menu() {
         window.URL.revokeObjectURL(url);
     }
 
+    // hucre Excel出力
+    const hucreOutputExcel = async () => {
+        try {
+            // APIを呼び出す
+            const response = await fetch(
+                "/api/hucreOutputExcel",
+                {
+                    method: "POST",
+                },
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Excelの出力に失敗しました。",
+                );
+            }
+
+            // ExcelデータをBlobとして取得
+            const blob = await response.blob();
+
+            // ダウンロード用URLを作成
+            const url = window.URL.createObjectURL(blob);
+
+            // ダウンロードリンクを作成
+            const link = document.createElement("a");
+
+            link.href = url;
+
+            link.download = "output.xlsx";
+
+            // ダウンロード実行
+            document.body.appendChild(link);
+            link.click();
+
+            // 後片付け
+            link.remove();
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error(error);
+            alert(
+                "Excelのダウンロードに失敗しました。",
+            );
+        }
+    }
+
     return (
         <div className="relative min-h-screen">
 
@@ -121,6 +167,17 @@ export default function Menu() {
                         onClick={ outputExcel }
                     >
                         Excel出力
+                    </button>
+                </div>
+
+                {/* hucre Excel出力 */}
+                <div>
+                    <button
+                        className="border rounded bg-red-300"
+                        type="button"
+                        onClick={ hucreOutputExcel }
+                    >
+                        hucre Excel出力
                     </button>
                 </div>
 
