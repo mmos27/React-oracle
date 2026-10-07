@@ -2,6 +2,7 @@
 
 import PrimaryButton from "@/components/button/PrimaryButton";
 import SecondaryButton from "@/components/button/SecondaryButton";
+import { readExcel } from "@/components/excelfile/hucreInputExcel";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -108,6 +109,27 @@ export default function Menu() {
         }
     }
 
+    // hucre Excel読み込み
+    const hucreInputExcel = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        // ファイル取得
+        const file = event.target.files?.[0];
+        if (!file) {
+            return;
+        }
+
+        try {
+            const result = await readExcel(file);
+            console.log(">>>読み込み結果:", result);
+        } catch(error) {
+            console.error(
+                "Excelの読み込みに失敗しました。",
+                error
+            );
+        }
+
+
+    }
+
     return (
         <div className="relative min-h-screen">
 
@@ -173,12 +195,23 @@ export default function Menu() {
                 {/* hucre Excel出力 */}
                 <div>
                     <button
-                        className="border rounded bg-red-300"
+                        className="border rounded bg-blue-300"
                         type="button"
                         onClick={ hucreOutputExcel }
                     >
                         hucre Excel出力
                     </button>
+                </div>
+
+                {/* hucre Excel読み込み */}
+                <div>
+                    <input
+                        className="border rounded bg-blue-300"
+                        type="file"
+                        accept=".xlsx"
+                        onChange={ hucreInputExcel }
+                    >
+                    </input>
                 </div>
 
                 <div className="absolute right-50 -bottom-30">
