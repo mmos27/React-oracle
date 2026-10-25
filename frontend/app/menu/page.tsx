@@ -28,14 +28,14 @@ export default function Menu() {
 
                 <Link
                     className="inline-block w-35 text-center bg-purple-700 hover:bg-purple-600 text-white rounded px-4 py-2 active:bg-purple-800"
-                    href="/createSchedule"
+                    href="/ScheduleTool/createSchedule"
                 >
                     新規作成
                 </Link>
 
                 <Link
                     className="inline-block w-35 text-center bg-purple-700 hover:bg-purple-600 text-white rounded px-4 py-2 active:bg-purple-800"
-                    href="/check"
+                    href="/ScheduleTool/check"
                 >
                     確認
                 </Link>
