@@ -17,7 +17,7 @@ export default function Menu() {
         <div className="relative min-h-screen">
 
             <h3 className="absolute top-6 left-8 text-xl font-bold text-gray-500">
-                旅行管理ツール
+                ツール選択
             </h3>
 
             <main className="relative flex flex-col items-center pt-28 gap-10">
@@ -27,17 +27,17 @@ export default function Menu() {
                 </h1>
 
                 <Link
-                    className="inline-block w-35 text-center bg-purple-700 hover:bg-purple-600 text-white rounded px-4 py-2 active:bg-purple-800"
-                    href="/ScheduleTool/createSchedule"
+                    className="inline-block w-60 text-center bg-purple-700 hover:bg-purple-600 text-white rounded px-4 py-2 active:bg-purple-800"
+                    href="/ScheduleTool/ScheduleMenu"
                 >
-                    新規作成
+                    旅行管理ツール
                 </Link>
-
+                
                 <Link
-                    className="inline-block w-35 text-center bg-purple-700 hover:bg-purple-600 text-white rounded px-4 py-2 active:bg-purple-800"
-                    href="/ScheduleTool/check"
+                    className="inline-block w-60 text-center bg-purple-700 hover:bg-purple-600 text-white rounded px-4 py-2 active:bg-purple-800"
+                    href="/LoveLiveCardSimulator/LoveLiveCardSimulatorMenu"
                 >
-                    確認
+                    ラブカシミュレーター
                 </Link>
 
                 <div className="absolute right-50 -bottom-30">

@@ -16,7 +16,6 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState<string>("");
 
     useEffect(() => {
-        // アプリケーション名取得
         const load = async () => {
             const response = await fetch("/api/login");
 
@@ -29,12 +28,9 @@ export default function Login() {
         load();
     }, []);
 
-    // ログイン
     const login = async () => {
-        // 前回のエラーメッセージをクリア
         setErrorMessage("");
 
-        // ユーザー名またはパスワードが未入力の場合
         if (!name || !password) {
             setErrorMessage("ユーザ名とパスワードを入力してください。");
             return;
@@ -55,7 +51,6 @@ export default function Login() {
             return;
         }
 
-        // ログイン成功
         router.push("/menu");
     };
 
