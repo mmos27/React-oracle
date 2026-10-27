@@ -49,7 +49,7 @@ services:
       # PostgreSQL
       # =================================
       # コンテナ間通信なのでホスト名は「db」
-      DATABASE_URL: postgresql://momo:yuki@db:5432/schedule_db
+      DATABASE_URL: postgresql://momo:yuki@db:5432/tool
 
     depends_on:
       - db
@@ -79,7 +79,7 @@ services:
       POSTGRES_PASSWORD: yuki
 
       # PostgreSQLデータベース
-      POSTGRES_DB: schedule_db
+      POSTGRES_DB: tool
 
     volumes:
       # PostgreSQLのデータを永続化

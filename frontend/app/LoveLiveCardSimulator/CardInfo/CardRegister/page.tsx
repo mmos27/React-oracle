@@ -6,7 +6,7 @@ import { work } from "@/types/loveLiveCardSimulator";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Insert() {
+export default function CardRegister() {
     const router = useRouter();
 
     const [memberLive, setMemberLive] = useState("member");
@@ -14,6 +14,16 @@ export default function Insert() {
     const [workName, setWorkName] = useState("");
 
     // DBから作品名を取得するようにする
+    useEffect(() => {
+        const load = async ()  => {
+            const response = await fetch(`/api/loveLiveCardSimulator/CardRegister/load`);
+
+            const body = await response.json();
+            console.log(">>>body:" ,body);
+        }
+
+        load();
+    }, []);
 
     return (
         <div>

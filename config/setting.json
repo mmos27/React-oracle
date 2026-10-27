@@ -4,9 +4,9 @@
     "port": 3000
   },
   "postgresql": {
-    "host": "lovalhost",
+    "host": "localhost",
     "port": 5432,
-    "postgresDB": "schedule_db",
+    "postgresDB": "tool",
     "user": "momo",
     "pass": "yuki"
   }

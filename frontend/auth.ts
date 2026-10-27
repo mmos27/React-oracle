@@ -1,12 +1,8 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { Pool } from "pg";
-
-// PostgreSQLへの接続プールを作成
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-});
+import { executeQuery } from "@/lib/db";
+import { UserRow } from "./types/user";
 
 // NextAuthの設定
 export const authOptions: NextAuthOptions = {
@@ -35,7 +31,7 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 // PostgreSQLからユーザーを検索
-                const result = await pool.query(
+                const result = await executeQuery<UserRow>(
                     `
                     SELECT
                         id,
@@ -46,6 +42,8 @@ export const authOptions: NextAuthOptions = {
                     `,
                     [credentials.name]
                 );
+
+                console.log(">>>result:", result);
 
                 // ユーザーが存在しない場合
                 if (result.rows.length === 0) {
