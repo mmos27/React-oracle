@@ -1,17 +1,16 @@
-import { selWork } from "@/sql/LoveLiveCardSimulator/CardInfo/CardRegister/selectWork";
-import { serializeWorkbook } from "hucre";
+import { selALlCharacter } from "@/sql/LoveLiveCardSimulator/CardInfo/CardRegister/selectAllCharacter";
+import { selAllUnit } from "@/sql/LoveLiveCardSimulator/CardInfo/CardRegister/selectAllUnit";
+import { selAllWork } from "@/sql/LoveLiveCardSimulator/CardInfo/CardRegister/selectAllWork";
 import { NextResponse } from "next/server";
 
 export async function GET(recest: Request) {
-    // console.log(">>>設定ファイル取得:", appName);
-    
-    // return NextResponse.json({
-    //     appName: appName
-    // });
-
-    const selWorkResult = await selWork();
+    const selWorkResult = await selAllWork();
+    const selUnitResult = await selAllUnit();
+    const selCharacterResult = await selALlCharacter();
 
     return NextResponse.json({
         work: selWorkResult,
+        unit: selUnitResult,
+        character: selCharacterResult,
     });
 }

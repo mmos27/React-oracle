@@ -7,14 +7,14 @@ export type work = {
 // ユニット名
 export type unit = {
     id: number,
-    workId: number,
-    name: string,
+    workid: number,
+    unitname: string,
 }
 
 // キャラクター名
 export type character = {
     id: number,
-    workId: number,
-    unitId: number,
-    name: string,
+    workid: number,
+    unitid: number,
+    charactername: string,
 }
