@@ -9,32 +9,42 @@ import { useEffect, useState } from "react";
 export default function CardRegister() {
     const router = useRouter();
 
-    const [memberLive, setMemberLive] = useState("member");
-    const [workList, setWorkList] = useState<work[]>([]);
-    const [unitList, setUnitList] = useState<unit[]>([]);
-    const [characterList, setCharacterList] = useState<character[]>([]);
-    const [workId, setWorkId] = useState<number>(0);
-    const [unitId, setUnitId] = useState<number>(0);
-    const [characterId, setCharacterId] = useState<number>(0);
+    const [memberLive, setMemberLive] = useState("member"); // メンバー・ライブ切り替え
+    const [workList, setWorkList] = useState<work[]>([]); // 作品名リスト
+    const [unitList, setUnitList] = useState<unit[]>([]); // ユニットリスト
+    const [characterList, setCharacterList] = useState<character[]>([]); // キャラクター
+    const [workId, setWorkId] = useState(0); // 作品名
+    const [unitId, setUnitId] = useState(0); // ユニット名
+    const [characterId, setCharacterId] = useState(0); // キャラクター名
+    const [errorMessage, setErrorMessage] = useState(""); // エラーメッセージ
+    const [isError,setIsError] = useState(false);
 
     useEffect(() => {
         const load = async ()  => {
-            const response = await fetch(`/api/loveLiveCardSimulator/CardRegister/load`);
+            try {
+                const response = await fetch(`/api/loveLiveCardSimulator/CardRegister/load`);
 
-            const body = await response.json();
-            const {
-                work,
-                unit,
-                character,
-            } = body;
+                if (!response.ok) {
+                    throw new Error();
+                }
+                const body = await response.json();
+                const {
+                    work,
+                    unit,
+                    character,
+                } = body;
 
-            const workList: work[] = work.rows;
-            const unitList: unit[] = unit.rows;
-            const characterList: character[] = character.rows;
+                const workList: work[] = work.rows;
+                const unitList: unit[] = unit.rows;
+                const characterList: character[] = character.rows;
 
-            setWorkList(workList);
-            setUnitList(unitList);
-            setCharacterList(characterList);
+                setWorkList(workList);
+                setUnitList(unitList);
+                setCharacterList(characterList);
+            } catch(error) {
+                setErrorMessage("データ取得に失敗しました");
+                setIsError(true);
+            }
         }
 
         load();
@@ -47,6 +57,7 @@ export default function CardRegister() {
         setCharacterId(0);
     }
 
+    // ユニット選択
     const selectedUnit =(unitId: number) => {
         setUnitId(unitId);
         setCharacterId(0);
@@ -59,6 +70,18 @@ export default function CardRegister() {
             </h3>
 
             <main className="relative flex flex-col items-center pt-28 gap-10">
+                <div>
+                    {isError ? (
+                        <p
+                            className="text-red-600"
+                        >
+                            {errorMessage}
+                        </p>
+                    ) : (
+                        <p></p>
+                    )}
+                </div>
+
                 <form className="flex gap-10">
                     <label>
                         <input
@@ -165,8 +188,6 @@ export default function CardRegister() {
 
                             {characterList
                                 .filter((row) => {
-                                    console.log(">>>workId:", workId);
-                                    console.log(">>>unitId:", unitId);
                                     return (
                                         (workId === 0 || row.workid === workId) &&
                                         (unitId === 0 || row.unitid === unitId)
