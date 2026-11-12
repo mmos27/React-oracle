@@ -17,7 +17,6 @@ export default function CardRegister() {
     const [unitId, setUnitId] = useState<number>(0);
     const [characterId, setCharacterId] = useState<number>(0);
 
-    // DBから作品名を取得するようにする
     useEffect(() => {
         const load = async ()  => {
             const response = await fetch(`/api/loveLiveCardSimulator/CardRegister/load`);
@@ -29,17 +28,9 @@ export default function CardRegister() {
                 character,
             } = body;
 
-            console.log(">>>work:", work);
-            console.log(">>>unit:", unit);
-            console.log(">>>character:", character);
-
             const workList: work[] = work.rows;
             const unitList: unit[] = unit.rows;
             const characterList: character[] = character.rows;
-
-            console.log(">>>workList:", workList);
-            console.log(">>>unitList:", unitList);
-            console.log(">>>characterList:", characterList);
 
             setWorkList(workList);
             setUnitList(unitList);
@@ -48,6 +39,18 @@ export default function CardRegister() {
 
         load();
     }, []);
+
+    // 作品名選択
+    const selectedWork = (workId: number) => {
+        setWorkId(workId);
+        setUnitId(0);
+        setCharacterId(0);
+    }
+
+    const selectedUnit =(unitId: number) => {
+        setUnitId(unitId);
+        setCharacterId(0);
+    }
 
     return (
         <div>
@@ -88,7 +91,7 @@ export default function CardRegister() {
                             className="border rounded p-1"
                             id="work"
                             value={workId}
-                            onChange={(e) => setWorkId(Number(e.target.value))}
+                            onChange={(e) => selectedWork(Number(e.target.value))}
                         >
                             <option
                                 id="work"
@@ -115,7 +118,7 @@ export default function CardRegister() {
                             className="border rounded p-1"
                             id="unit"
                             value={unitId}
-                            onChange={(e) => setUnitId(Number(e.target.value))}
+                            onChange={(e) => selectedUnit(Number(e.target.value))}
                         >
                             <option
                                 id="unit"
@@ -162,6 +165,8 @@ export default function CardRegister() {
 
                             {characterList
                                 .filter((row) => {
+                                    console.log(">>>workId:", workId);
+                                    console.log(">>>unitId:", unitId);
                                     return (
                                         (workId === 0 || row.workid === workId) &&
                                         (unitId === 0 || row.unitid === unitId)
